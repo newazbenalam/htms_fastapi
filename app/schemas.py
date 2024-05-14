@@ -7,3 +7,4 @@ class PostBase(BaseModel):
   
 class UserBase(BaseModel):
   username: str
+  id: int

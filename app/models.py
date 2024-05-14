@@ -11,6 +11,8 @@ class User(Base):
   created_at = Column(DateTime(timezone=True), server_default=func.now())
   updated_at = Column(DateTime(timezone=True), onupdate=func.now(), default=func.now(),server_default=func.now())
   post = relationship('Post', backref='users')
+  # Define the relationship with posts
+  posts = relationship("Post", back_populates="user")
   
 class Post(Base):
   __tablename__ = 'posts'
@@ -20,7 +22,7 @@ class Post(Base):
   created_at = Column(DateTime(timezone=True), server_default=func.now())
   updated_at = Column(DateTime(timezone=True), onupdate=func.now())
   user_id = Column(Integer, ForeignKey('users.id'))
-  
-  
+  # Define the relationship with users
+  user = relationship("User", back_populates="posts")
   
   

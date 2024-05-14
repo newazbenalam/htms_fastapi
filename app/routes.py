@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from typing import List
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from functools import lru_cache
 from app.database import get_db
@@ -29,6 +30,7 @@ def read_users(db: db_dependency):
 def get_user_by_email(user_id: int, db: db_dependency):
     user = db.query(User).filter(User.id == user_id).first()
     if user:
+        user.posts
         return user
     raise HTTPException(status_code=404, detail="User not found")
   
@@ -45,9 +47,12 @@ def read_post(db: db_dependency):
     return db.query(Post).all()
 
 @lru_cache(maxsize=128)
-@router.get("/post/{post_id}", status_code=status.HTTP_200_OK, response_model=PostBase)
+@router.get("/post/{post_id}", status_code=status.HTTP_200_OK)
 def get_post_by_id(post_id: int, db: db_dependency):
     post = db.query(Post).filter(Post.id == post_id).first()
     if post:
+        post.user
         return post
+        # post_dict = post.__dict__
+        # return post_dict
     raise HTTPException(status_code=404, detail="User not found")
