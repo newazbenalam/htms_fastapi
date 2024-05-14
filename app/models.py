@@ -10,9 +10,9 @@ class User(Base):
   username= Column(String(64), unique=True)
   created_at = Column(DateTime(timezone=True), server_default=func.now())
   updated_at = Column(DateTime(timezone=True), onupdate=func.now(), default=func.now(),server_default=func.now())
-  post = relationship('Post', backref='users')
-  # Define the relationship with posts
-  posts = relationship("Post", back_populates="user")
+  posts = relationship('Post', back_populates='user', overlaps="user,posts")
+  # classname -- classname.attribute -- set of attributes
+
   
 class Post(Base):
   __tablename__ = 'posts'
@@ -22,7 +22,6 @@ class Post(Base):
   created_at = Column(DateTime(timezone=True), server_default=func.now())
   updated_at = Column(DateTime(timezone=True), onupdate=func.now())
   user_id = Column(Integer, ForeignKey('users.id'))
-  # Define the relationship with users
-  user = relationship("User", back_populates="posts")
+  user = relationship('User', back_populates='posts', overlaps="user,posts")
   
   
