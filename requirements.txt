@@ -1,0 +1,8 @@
+fastapi
+fastapi-utils
+starlette==0.35.1
+pydantic
+pymysql
+sqlalchemy
+uvicorn
+python-dotenv
